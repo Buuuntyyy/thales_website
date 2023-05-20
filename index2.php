@@ -118,7 +118,7 @@
         $res->setFetchMode(PDO::FETCH_ASSOC);
         $res->execute();
         $tab_recherche = $res->fetchAll();
-        print_r($tab_recherche);
+        #print_r($tab_recherche);
 
     }
 ?>
@@ -174,7 +174,7 @@
                     die ("Erreur: Connexion à la base impossible");
                 }
         
-                $sql = "SELECT id_test, date_exec FROM execution 
+                $sql = "SELECT id_test, date_exec, exec_id FROM execution 
                 INNER JOIN test ON execution.id_test = test.test_id; "; // Stocke le code SQL de la requête
                 $req = $bd->prepare ($sql); // Requête préparée
                 $req->execute (); // Requête exécutée
@@ -185,7 +185,7 @@
 
                     if ($LesExecs[$w]['id_test'] == $tab_recherche[$i]['test_id']){
 
-                        echo "{$LesExecs[$w]['id_test']} {$LesExecs[$w]['date_exec']}";
+                        echo "<a href='affichage.php?exec_id={$LesExecs[$w]['exec_id']}'>{$LesExecs[$w]['id_test']} {$LesExecs[$w]['date_exec']}</a>";
                         ?> <br> <?php
                     }
                 }
