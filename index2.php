@@ -55,7 +55,7 @@
         <br>
         <br>
         <?php for($i=0;$i<sizeof($lesEnreg);$i++){ ?>
-            <li><?php echo "<a href=affichage.php/>{$lesEnreg[$i]['nom_test']} {$lesEnreg[$i]['date']}</a>"?> </li>
+            <li><?php echo "<a href=resultats.php/>{$lesEnreg[$i]['nom_test']} {$lesEnreg[$i]['date']}</a>"?> </li>
         <?php } ?>
     </div>
 
@@ -88,7 +88,7 @@
 
                     if ($LesExecs[$w]['id_test'] == $tab_recherche[$i]['test_id']){
 
-                        echo "<a href='affichage.php?exec_id={$LesExecs[$w]['exec_id']}'>{$LesExecs[$w]['id_test']} {$LesExecs[$w]['date_exec']}</a>";
+                        echo "<a href='resultats.php?exec_id={$LesExecs[$w]['exec_id']}'>{$LesExecs[$w]['id_test']} {$LesExecs[$w]['date_exec']}</a>";
                         ?> <br> <?php
                     }
                 }
