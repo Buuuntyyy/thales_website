@@ -114,10 +114,11 @@
         catch (Exception $e) {
             die ("Erreur: Connexion à la base impossible");
         }
-        $res=$bd->prepare("SELECT nom_test, date FROM test WHERE ".implode(" or ", $kw));
+        $res=$bd->prepare("SELECT nom_test, date, test_id FROM test WHERE ".implode(" or ", $kw));
         $res->setFetchMode(PDO::FETCH_ASSOC);
         $res->execute();
         $tab_recherche = $res->fetchAll();
+        print_r($tab_recherche);
 
     }
 ?>
@@ -173,16 +174,23 @@
                     die ("Erreur: Connexion à la base impossible");
                 }
         
-                $sql = "SELECT test_id, nom_test, date FROM test 
-                INNER JOIN execution ON test.test_id = execution.id_test; "; // Stocke le code SQL de la requête
+                $sql = "SELECT id_test, date_exec FROM execution 
+                INNER JOIN test ON execution.id_test = test.test_id; "; // Stocke le code SQL de la requête
                 $req = $bd->prepare ($sql); // Requête préparée
                 $req->execute (); // Requête exécutée
                 $LesExecs = $req->fetchall (); // Requête exécutée
                 $req->closeCursor (); // Requête détruite
+                echo "<p id='afficher{$i}'>";
                 for ($w=0;$w<sizeof($LesExecs);$w++){
-                    echo "<p id='afficher{$i}'>{$LesExecs[$w]['test_id']} {$LesExecs[$w]['nom_test']} {$LesExecs[$w]['date']}</p>";
-                } ?>
-                <br>
+
+                    if ($LesExecs[$w]['id_test'] == $tab_recherche[$i]['test_id']){
+
+                        echo "{$LesExecs[$w]['id_test']} {$LesExecs[$w]['date_exec']}";
+                        ?> <br> <?php
+                    }
+                }
+                echo "</p>";
+                ?><br>
             <?php } ?>
         </div>
     </div>
