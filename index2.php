@@ -125,68 +125,13 @@
 <html>
 <head>
     <title>Exemple de page avec deux div</title>
-    <style>
-
-        .maDiv {
-            width: 100%;
-            height: 100%;
-            border: 1px solid #ccc;
-            position: relative left;
-            margin-bottom: 10px;
-            background-color: white;
-            display: none; /* Masquer les divs par défaut */
-        }
-        
-        /* Style pour les deux div */
-        .div1 {
-            width: 25%;
-            height: 250px;
-            float: right;
-            background-color: black;
-            padding: 10px;
-        }
-
-        .div11{
-            width: 75%;
-            height: 400px;
-            float: bottom;
-            background-color: #B3B3B3;
-            padding: 10px;
-            overflow-y: scroll;
-        }
-        .div12{
-            width: 20%;
-            height: 400px;
-            position: relative;
-            left: 78%;
-            top: -420px;
-            background-color: white;
-            padding: 10px;
-            overflow-y: scroll;
-        }
-
-        .div2 {
-            width: 75%;
-            height: 200px;
-            float: left;
-            background-color: black;
-            padding: 20px;
-            float: left;
-            border: 1px solid black;
-            overflow: auto;
-        }
-
-        button{
-            position: center;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 </head>
 <body>
     <div class="div11">
         <h3>Historique des 10 derniers Tests</h3> <!--afficher ici les 10 derniers test ainsi qu'une 
                             barre de recherche pour aller chercher un test spécifique dans la BDD-->
-                            <?php
-
+        <?php
         try {
             $bd = new PDO ( "mysql:host=localhost;dbname=thales",
             "root", "" );
@@ -205,7 +150,7 @@
         ?>
         <br>
         <br>
-        <?php for($i=0;$i<10;$i++){ ?>
+        <?php for($i=0;$i<sizeof($lesEnreg);$i++){ ?>
             <li><?php echo "<a href=affichage.php/>{$lesEnreg[$i]['nom_test']} {$lesEnreg[$i]['date']}</a>"?> </li>
         <?php } ?>
     </div>
@@ -218,7 +163,26 @@
 
         <div>
             <?php for ($i=0;$i<count($tab_recherche);$i++){?>
-                <li><?php echo "<a href=affichage.php/>{$tab_recherche[$i]['nom_test']} {$tab_recherche[$i]['date']}</a>"?> </li>
+                <?php echo "<a href='#afficher{$i}'>{$tab_recherche[$i]['nom_test']} {$tab_recherche[$i]['date']}  [&darr;]</a> <a href='#'>[&uarr;]</a>";
+                try {
+                    $bd = new PDO ( "mysql:host=localhost;dbname=thales",
+                    "root", "" );
+                    $bd->exec('SET NAMES utf8');
+                }
+                catch (Exception $e) {
+                    die ("Erreur: Connexion à la base impossible");
+                }
+        
+                $sql = "SELECT test_id, nom_test, date FROM test 
+                INNER JOIN execution ON test.test_id = execution.id_test; "; // Stocke le code SQL de la requête
+                $req = $bd->prepare ($sql); // Requête préparée
+                $req->execute (); // Requête exécutée
+                $LesExecs = $req->fetchall (); // Requête exécutée
+                $req->closeCursor (); // Requête détruite
+                for ($w=0;$w<sizeof($LesExecs);$w++){
+                    echo "<p id='afficher{$i}'>{$LesExecs[$w]['test_id']} {$LesExecs[$w]['nom_test']} {$LesExecs[$w]['date']}</p>";
+                } ?>
+                <br>
             <?php } ?>
         </div>
     </div>
