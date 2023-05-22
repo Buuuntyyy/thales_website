@@ -88,7 +88,7 @@
 
                     if ($LesExecs[$w]['id_test'] == $tab_recherche[$i]['test_id']){
 
-                        echo "<a href='resultats.php?exec_id={$LesExecs[$w]['exec_id']}'>{$LesExecs[$w]['id_test']} {$LesExecs[$w]['date_exec']}</a>";
+                        echo "<a href='resultats.php?exec_id={$LesExecs[$w]['exec_id']}&pageid=0'>{$LesExecs[$w]['id_test']} {$LesExecs[$w]['date_exec']}</a>";
                         ?> <br> <?php
                     }
                 }
