@@ -4,20 +4,19 @@
         "Colonne 6", "Colonne 7", "Colonne 8", "Colonne 9", "Colonne 11", "Colonne 22", "Colonne 33", "Colonne 44", "Colonne 55",
         "Colonne 66", "Colonne 77", "Colonne 88", "Colonne 99", "Colonne 111", "Colonne 222", "Colonne 333", "Colonne 444", "Colonne 555",
         "Colonne 666", "Colonne 777", "Colonne 888", "Colonne 999");
-
         try {
             $bd = new PDO ( "mysql:host=localhost;dbname=thales",
             "root", "" );
             $bd->exec('SET NAMES utf8');
+            echo "bdddddddddddddddddddddddd";
         }
         catch (Exception $e) {
             die ("Erreur: Connexion à la base impossible");
         }
-    
         $res=$bd->prepare("SELECT * FROM udp1 INNER JOIN execution ON udp1.id_exec = execution.exec_id");
         $res->execute();
         $data_tab = $res->fetchAll();
-
+        echo "okokokokok";
         if ($_POST['id'] == "1"){
             unset($_POST["id"]);
             unset($_POST["colonne110"]);
@@ -41,6 +40,7 @@
     else if (!isset($_COOKIE['nom_col1'])){
         $name_col1 = array("field1", "field2", "field3", "field4", "field5", "field6", "field7", "field8", "field9", "field10", "field11", "field12", "field13", "field14", "field15", "field16", "field17", "field18", "field19", "field20", "field21", "field22", "field23", "field24", "field25", "field26", "field27");
         setcookie("nom_col1", serialize($name_col1), (time()+365*24*3600)*10);
+        echo "fuck";
     }
 ?>
 <!DOCTYPE html>
