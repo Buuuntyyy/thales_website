@@ -1,0 +1,50 @@
+.grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px 2em;
+}
+
+.div11{
+    width: 70%;
+    height: 400px;
+    float: bottom;
+    background-color: gray;
+    padding: 10px;
+    overflow-y: scroll;
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.div12{
+    width: 100px;
+    height: 400px;
+    position: relative;
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.div13{
+    width: 35%;
+    height: 400px;
+    position: relative;
+    left: 65%;
+    top: -420px;
+    background-color: white;
+    padding: 10px;
+    overflow-y: scroll;
+    grid-column: 3;
+    grid-row: 1;
+}
+
+
+button{
+    position: center;
+}
+
+p{
+    display:none;
+}
+
+p:target{
+    display:block;
+}
