@@ -1,5 +1,5 @@
 <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if ($_SERVER["REQUEST_METHOD"] == "GET"){
         $titrediv1 = array("Colonne 1", "Colonne 2", "Colonne 3", "Colonne 4", "Colonne 5",
         "Colonne 6", "Colonne 7", "Colonne 8", "Colonne 9", "Colonne 11", "Colonne 22", "Colonne 33", "Colonne 44", "Colonne 55",
         "Colonne 66", "Colonne 77", "Colonne 88", "Colonne 99", "Colonne 111", "Colonne 222", "Colonne 333", "Colonne 444", "Colonne 555",
