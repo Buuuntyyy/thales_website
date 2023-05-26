@@ -1,47 +1,40 @@
 <?php
-    if ($_SERVER["REQUEST_METHOD"] == "GET"){
-        $titrediv1 = array("Colonne 1", "Colonne 2", "Colonne 3", "Colonne 4", "Colonne 5",
-        "Colonne 6", "Colonne 7", "Colonne 8", "Colonne 9", "Colonne 11", "Colonne 22", "Colonne 33", "Colonne 44", "Colonne 55",
-        "Colonne 66", "Colonne 77", "Colonne 88", "Colonne 99", "Colonne 111", "Colonne 222", "Colonne 333", "Colonne 444", "Colonne 555",
-        "Colonne 666", "Colonne 777", "Colonne 888", "Colonne 999");
-        try {
-            $bd = new PDO ( "mysql:host=localhost;dbname=thales",
-            "root", "" );
-            $bd->exec('SET NAMES utf8');
-            echo "bdddddddddddddddddddddddd";
-        }
-        catch (Exception $e) {
-            die ("Erreur: Connexion à la base impossible");
-        }
-        $res=$bd->prepare("SELECT * FROM udp1 INNER JOIN execution ON udp1.id_exec = execution.exec_id");
-        $res->execute();
-        $data_tab = $res->fetchAll();
-        echo "okokokokok";
-        if ($_POST['id'] == "1"){
-            unset($_POST["id"]);
-            unset($_POST["colonne110"]);
+    if (!isset($_COOKIE['nom_col']))
+    {
+        #echo"putain";
+        $name_col = array("field1", "field2", "field3", "field4", "field5", "field6", "field7", "field8", "field9", "field10", "field11", "field12", "field13", "field14", "field15", "field16", "field17", "field18", "field19", "field20", "field21", "field22", "field23", "field24", "field25", "field26", "field27");
+        setcookie("nom_col", serialize($name_col), (time()+365*24*3600)*10);
+        #echo "oh noooooooooooooooo";
+        $init=0;
+    }
+    else{
+        $init = 1;
+        if (isset($_POST)){
+            #print_r($_POST);
             $cook = $_POST;
-            if (!isset($_COOKIE['nom_col1'])){
-                for($i=1;$i<=27;++$i){
-                    if ($cook['colonne1'.$i] == ""){
-                        $cook['colonne1'.$i] = $titrediv1[$i-1];
-                    }
+            print_r($cook);
+            for($i=1;$i<=27;++$i){ #ajouter un bout de code pour prendre en compte les anciens titre de div
+                if ($cook['colonne'.$i] == ""){
+                    $cook['colonne'.$i] = "field";
+                    #print_r($cook);
                 }
             }
-            else{
-                $temp = unserialize($_COOKIE['nom_col1']);
-                setcookie("nom_col1", serialize($cook), (time()+365*24*3600)*10);
-            }
-        }
-        else{
-            echo "";
+            setcookie("nom_col", serialize($cook), (time()+365*24*3600)*10);
         }
     }
-    else if (!isset($_COOKIE['nom_col1'])){
-        $name_col1 = array("field1", "field2", "field3", "field4", "field5", "field6", "field7", "field8", "field9", "field10", "field11", "field12", "field13", "field14", "field15", "field16", "field17", "field18", "field19", "field20", "field21", "field22", "field23", "field24", "field25", "field26", "field27");
-        setcookie("nom_col1", serialize($name_col1), (time()+365*24*3600)*10);
-        echo "fuck";
+    try {
+        $bd = new PDO ( "mysql:host=localhost;dbname=thales",
+        "root", "" );
+        $bd->exec('SET NAMES utf8');
+        echo "bdddddddddddddddddddddddd";
     }
+    catch (Exception $e) {
+        die ("Erreur: Connexion à la base impossible");
+    }
+    $res=$bd->prepare("SELECT * FROM udp1 INNER JOIN execution ON udp1.id_exec = execution.exec_id");
+    $res->execute();
+    $data_tab = $res->fetchAll();
+    echo "okokokokok";
 ?>
 <!DOCTYPE html>
 <html>
@@ -54,32 +47,41 @@
         <table border="1">
             <?php $i = 1; ?>
             <form name="test" action="#", method="post">
-                <input type="hidden" name="id" value="1">
                 <tr>
                     <td> Numero Ligne </td>
-                <?php foreach (unserialize($_COOKIE['nom_col1']) as $ligne): ?>
-                    <td><input type="text" name=<?php echo"colonne1{$i}";?> /> <?php echo $ligne; ?></td>
-                    <?php $i = $i + 1;?>
-                <?php endforeach; ?>
-                <td><input type="submit" value="enregistrer div1" /></td>
+                <?php #il faut vérifier que le cookie soit initialisé, sinon afficher les valeurs par défaut : ?>
+                <?php if ($init == 0){
+                    foreach($name_col as $ligne){ ?>
+                        <td><input type='text' name=<?php echo "colonne{$i}" ;?> /> <?php echo $ligne; ?></td>
+                        <?php $i = $i + 1; ?>
+                    <?php }
+                }
+                else{
+                    foreach(unserialize($_COOKIE['nom_col']) as $ligne){ ?>
+                        <?php echo $i; ?>
+                        <td><input type="text" name=<?php echo"colonne{$i}";?> /> <?php echo $ligne; ?></td>
+                        <?php $i = $i + 1;
+                    }
+                } ?>
+                <td><input type="submit" value="enregistrer" /></td>
                 </tr>
-                </form>
-                <?php 
-                    if (!isset($_GET['max'])){
-                        $max_val = 100;
+            </form>
+            <?php 
+                if (!isset($_GET['max'])){
+                    $max_val = 100;
+                }
+                else{
+                    $max_val = $_GET['max'];
+                }
+                $seuil = $max_val - 100;
+                for($i=$seuil;$i<=$max_val;$i++){
+                    echo "<tr>";
+                    echo "<td> {$i} </td>";
+                    for($n=0;$n<27;$n++){
+                        echo "<td> {$data_tab[$i][$n]} </td>";
                     }
-                    else{
-                        $max_val = $_GET['max'];
-                    }
-                    $seuil = $max_val - 100;
-                    for($i=$seuil;$i<=$max_val;$i++){
-                        echo "<tr>";
-                        echo "<td> {$i} </td>";
-                        for($n=0;$n<27;$n++){
-                            echo "<td> {$data_tab[$i][$n]} </td>";
-                        }
-                        echo "</tr>";
-                    } ?>
+                    echo "</tr>";
+                } ?>
         </table>
     </div>
     <div class="choixPage">
