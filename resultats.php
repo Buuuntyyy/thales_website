@@ -2,24 +2,32 @@
     if (!isset($_COOKIE['nom_col']))
     {
         #echo"putain";
-        $name_col = array("field1", "field2", "field3", "field4", "field5", "field6", "field7", "field8", "field9", "field10", "field11", "field12", "field13", "field14", "field15", "field16", "field17", "field18", "field19", "field20", "field21", "field22", "field23", "field24", "field25", "field26", "field27");
+        $name_col = array("field1", "field2", "field3", "field4", "field5", "field6", "field7", "field8", "field9", "field10", "field11", "field12", "field13", "field14", "field15", "field16", "field17", "field18", "field19", "field20", "field21", "field22", "field23", "field24", "field25", "field26", "field27", "field28", "field29", "field30", "field31", "field32", "field33", "field34");
         setcookie("nom_col", serialize($name_col), (time()+365*24*3600)*10);
         #echo "oh noooooooooooooooo";
         $init=0;
     }
     else{
+        $test = unserialize($_COOKIE['nom_col']);
         $init = 1;
-        if (isset($_POST)){
-            #print_r($_POST);
-            $cook = $_POST;
-            print_r($cook);
-            for($i=1;$i<=27;++$i){ #ajouter un bout de code pour prendre en compte les anciens titre de div
-                if ($cook['colonne'.$i] == ""){
-                    $cook['colonne'.$i] = "field";
+        #print_r($_COOKIE);
+        print_r($test);
+        if (!empty($_POST)){
+            $modif = $_POST;
+            #print_r($modif);
+
+            for($i=0;$i<34;++$i){ #ajouter un bout de code pour prendre en compte les anciens titre de div
+                if ($modif['colonne'.$i] == ""){
+                    $modif['colonne'.$i] = "field";
                     #print_r($cook);
                 }
+                else{
+                    $test[$i] = $modif['colonne'.$i];
+                }
             }
-            setcookie("nom_col", serialize($cook), (time()+365*24*3600)*10);
+            echo "finnnnnnnnnnnnnnnnnnnnn";
+            print_r($test);
+            setcookie("nom_col", serialize($test), (time()+365*24*3600)*10);
         }
     }
     try {
@@ -45,7 +53,7 @@
 <body>
 <div class="maDivTable">
         <table border="1">
-            <?php $i = 1; ?>
+            <?php $i = 0; ?>
             <form name="test" action="#", method="post">
                 <tr>
                     <td> Numero Ligne </td>
@@ -77,7 +85,7 @@
                 for($i=$seuil;$i<=$max_val;$i++){
                     echo "<tr>";
                     echo "<td> {$i} </td>";
-                    for($n=0;$n<27;$n++){
+                    for($n=0;$n<34;$n++){
                         echo "<td> {$data_tab[$i][$n]} </td>";
                     }
                     echo "</tr>";
