@@ -79,7 +79,7 @@
                 <input type="text" name="keywords" placeholder="Mots-clés" value="<?php echo $keywords ?>"/>
                 <input type="submit" name="valider" value="Rechercher"/>
             </form>
-
+            <div>
                 <?php for ($i=0;$i<count($tab_recherche);$i++){?>
                     <?php echo "<a href='#afficher{$i}'>{$tab_recherche[$i]['nom_test']} {$tab_recherche[$i]['date']}  [&darr;]</a> <a href='#'>[&uarr;]</a>";
                     try {
@@ -109,6 +109,7 @@
                     echo "</p>";
                     ?><br>
                 <?php } ?>
+            </div>
         </div>
     </div>
 </body>
