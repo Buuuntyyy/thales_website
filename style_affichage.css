@@ -22,3 +22,11 @@
 .choixPage{
     text-align: center;
 }
+
+p{
+    display:none;
+}
+
+p:target{
+    display:block;
+}
