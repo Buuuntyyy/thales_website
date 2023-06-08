@@ -35,6 +35,7 @@
         <img class="logo-groupe" src="logo-groupe.jpeg" alt="Logo groupe">
     </header>
     <div class="container">
+
         <div class="box1">
             <h3>Historique des 10 derniers Tests</h3> <!--afficher ici les 10 derniers test ainsi qu'une 
                                 barre de recherche pour aller chercher un test spécifique dans la BDD-->
@@ -61,11 +62,16 @@
                 <li><?php echo "<a href=resultats.php/>{$lesEnreg[$i]['nom_test']} {$lesEnreg[$i]['date']}</a>"?> </li>
             <?php } ?>
         </div>
-
         <div class="box2">
             <h3>détails et infos</h3>
             <form action="index.html" method="POST" id="onglet-parametres">
-                <label for="nb_lignes">Nombre d'affichage de lignes :</label>
+                <label for="nb_lignes">Nombre d'affichage de lignes par page:</label>
+                <input type="number" id="nb_lignes" name="nb_lignes" min="1" max="1000" value="100">
+                <input type="submit" value="Enregistrer">
+            </form>
+                <br>
+            <form action="index.html" method="POST" id="onglet-parametres">
+                <label for="nb_lignes">Nombre d'affichage historique</label>
                 <input type="number" id="nb_lignes" name="nb_lignes" min="1" max="1000" value="100">
                 <input type="submit" value="Enregistrer">
             </form>
@@ -102,7 +108,7 @@
 
                         if ($LesExecs[$w]['id_test'] == $tab_recherche[$i]['test_id']){
 
-                            echo "<a href='resultats.php?exec_id={$LesExecs[$w]['exec_id']}&pageid=0'>{$LesExecs[$w]['id_test']} {$LesExecs[$w]['date_exec']}</a>";
+                            echo "<a href='resultats.php?exec_id={$LesExecs[$w]['exec_id']}&pageid=0'>{$LesExecs[$w]['exec_id']} {$LesExecs[$w]['date_exec']}</a>";
                             ?> <br> <?php
                         }
                     }

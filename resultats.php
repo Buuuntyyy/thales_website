@@ -31,10 +31,10 @@
     catch (Exception $e) {
         die ("Erreur: Connexion à la base impossible");
     }
-    $res=$bd->prepare("SELECT * FROM udp1 INNER JOIN execution ON udp1.id_exec = execution.exec_id");
+    $req = "SELECT * FROM udp1 WHERE id_test={$_GET['exec_id']}";
+    $res=$bd->prepare($req);
     $res->execute();
     $data_tab = $res->fetchAll();
-    echo "okokokokok";
 ?>
 <!DOCTYPE html>
 <html>
